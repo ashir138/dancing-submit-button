@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dancing Submit Button</title>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      width: 30em;
+      background-color: #e7e6e6;
+      padding: 2em 3em;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 3px solid #474747;
+      border-radius: 1em;
+      box-shadow: 0 1em 4em rgba(71, 50, 4, 0.3);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 1em;
+      color: rgb(0, 0, 147);
+    }
+
+    input,
+    button {
+      width: 100%;
+      font-size: 1em;
+      padding: 0.8em;
+      margin-top: 1em;
+      border: none;
+      border-bottom: 2px solid #202020;
+      outline: none;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #3c3b3b;
+      color: white;
+      width: 7em;
+      position: relative;
+      left: 0;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    #message-ref {
+      text-align: center;
+      font-size: 0.9em;
+      color: #3934bd;
+      margin-top: 1em;
+      visibility: hidden;
+    }
+
+    input::placeholder {
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Dancing Submit Button</h2>
+
+    <input type="text" id="username" placeholder="Enter username (min 4 characters)" />
+    <input type="password" id="password" placeholder="Enter strong password" />
+    <button id="submit">Submit</button>
+    <p id="message-ref">Signed up successfully!</p>
+  </div>
+
+  <script>
+    const usernameRef = document.getElementById("username");
+    const passwordRef = document.getElementById("password");
+    const submitBtn = document.getElementById("submit");
+    const messageRef = document.getElementById("message-ref");
+
+    const isUsernameValid = () => /^[a-zA-Z][a-zA-Z0-9]{3,32}$/.test(usernameRef.value);
+    const isPasswordValid = () => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(passwordRef.value);
+
+    const showValidState = (input, isValid) => {
+      input.style.borderColor = isValid ? "#34bd34" : "#fe2e2e";
+      input.style.backgroundColor = isValid ? "#c2ffc2" : "#ffc2c2";
+    };
+
+    usernameRef.addEventListener("input", () => {
+      messageRef.style.visibility = "hidden";
+      showValidState(usernameRef, isUsernameValid());
+    });
+
+    passwordRef.addEventListener("input", () => {
+      messageRef.style.visibility = "hidden";
+      showValidState(passwordRef, isPasswordValid());
+    });
+
+    submitBtn.addEventListener("mouseover", () => {
+      if (!isUsernameValid() || !isPasswordValid()) {
+        const container = document.querySelector(".container");
+        const containerRect = container.getBoundingClientRect();
+        const btnRect = submitBtn.getBoundingClientRect();
+        const offset = btnRect.left - containerRect.left;
+
+        submitBtn.style.transform = offset <= 100 ? "translateX(16em)" : "translateX(0)";
+      }
+    });
+
+    submitBtn.addEventListener("click", () => {
+      if (isUsernameValid() && isPasswordValid()) {
+        messageRef.style.visibility = "visible";
+        submitBtn.style.transform = "none";
+      }
+    });
+  </script>
+
+</body>
+</html>
