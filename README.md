@@ -18,12 +18,6 @@ This is a fun and interactive mini-project where the **submit button dances away
 
 ---
 
-## 📸 Demo
-
-![Demo GIF or Screenshot Here] *(Add yours after upload)*
-
----
-
 ## 🛠 Technologies Used
 
 - HTML5
